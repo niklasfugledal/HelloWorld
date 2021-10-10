@@ -3,14 +3,14 @@ package bacit.web.bacit_web;
 public class UserModel {
     private String firstName;
     private String lastName;
-    private String userName;
+    private String phoneNumber;
     private String password;
     private String dob;
 
-    public UserModel(String firstName, String lastName, String userName, String password, String dob) {
+    public UserModel(String firstName, String lastName, String phoneNumber, String password, String dob) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userName;
+        this.phoneNumber = phoneNumber;
         this.password = password;
         this.dob = dob;
 
@@ -32,13 +32,10 @@ public class UserModel {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
-    }
+    public String getPhoneNumber() { return phoneNumber; }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
 
     public String getPassword() {
         return password;

@@ -13,33 +13,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "GetUserServlet", value = "/GetUserServlet")
-public class GetUserServlet extends HttpServlet {
+@WebServlet(name = "GetToolServlet", value = "/GetToolServlet")
+public class GetToolServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-        String uname = request.getParameter("uname");
+            throws ServletException, IOException {
+        String toolname = request.getParameter("toolname");
         PrintWriter out = response.getWriter();
         try {
-            UserModel model = getUser(uname, out);
+            ToolModel model = getTool(toolname, out);
 
-            out.println(model.getFirstName());
-            out.println(model.getLastName());
-            out.println(model.getPhoneNumber());
-            out.println(model.getPassword());
-            out.println(model.getDob());
+            out.println(model.getToolName());
+            out.println(model.getToolDescription());
+            out.println(model.getToolPrice());
+            out.println(model.getToolStatusID());
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-
+    private ToolModel getTool(String toolname, PrintWriter out) {
     }
 
-    private UserModel getUser(String uname, PrintWriter out) throws SQLException {
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    }
+
+    private ToolModel getUser(String toolname, PrintWriter out) throws SQLException {
         Connection db = null;
         try {
             db = DBUtils.getINSTANCE().getConnection(out);
@@ -47,15 +50,15 @@ public class GetUserServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        String query3 = "select * from user where User_lastName = ?";
+        String query3 = "select * from tool where Tool_toolName = ?";
         PreparedStatement statement = db.prepareStatement(query3);
-        statement.setString(1, uname);
+        statement.setString(1, toolname);
         ResultSet rs = statement.executeQuery();
-        UserModel model = null;
+        ToolModel model = null;
         while (rs.next()) {
             model =
-                new UserModel(rs.getString("User_firstName"), rs.getString("User_lastName"), rs.getString("User_phoneNumber"),
-                    rs.getString("User_password"), rs.getString("User_dob"));
+                    new ToolModel(rs.getString("Tool_toolName"), rs.getString("Tool_description"), rs.getInt("Tool_price"),
+                            rs.getInt("Tool_statusID"));
         }
         return model;
     }
